@@ -1,0 +1,122 @@
+.settings__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.settings__card {
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+
+.settings__card--full {
+  grid-column: 1 / -1;
+}
+
+.settings__card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-200);
+  color: var(--gray-700);
+}
+
+.settings__card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.settings__card-body {
+  padding: 20px;
+}
+
+.settings__info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.settings__info-row:last-child {
+  border-bottom: none;
+}
+
+.settings__info-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+
+.settings__info-value {
+  font-size: 14px;
+  color: var(--gray-900);
+  font-weight: 500;
+}
+
+.settings__role-badge {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.settings__alert {
+  padding: 10px 14px;
+  border-radius: var(--border-radius);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.settings__alert--success {
+  background-color: #e6f4ea;
+  color: #1e7e34;
+  border: 1px solid #b7dfbf;
+}
+
+.settings__alert--error {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid #f5c6c3;
+}
+
+.settings__form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings__form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.settings__sys-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.settings__sys-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (max-width: 768px) {
+  .settings__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings__sys-grid {
+    grid-template-columns: 1fr;
+  }
+}
