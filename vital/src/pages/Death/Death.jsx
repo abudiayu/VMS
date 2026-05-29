@@ -6,21 +6,17 @@ import DeathForm from './DeathForm';
 import { deathService } from '../../services/deathService';
 import { useFetch } from '../../hooks/useFetch';
 import { usePageTitle } from '../../hooks/usePageTitle';
-import { useAuth } from '../../context/AuthContext';
 import '../Birth/Birth.css';
 import './Death.css';
 
 export default function Death() {
   usePageTitle('Death Records');
-  const { user } = useAuth();
 
   const { data, loading, refetch } = useFetch(() => deathService.getAll());
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm]     = useState(false);
   const [editRecord, setEditRecord] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-
-  const canEdit = user?.role === 'admin' || user?.role === 'employee';
+  const [deleteId, setDeleteId]     = useState(null);
+  const [deleting, setDeleting]     = useState(false);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -69,9 +65,7 @@ export default function Death() {
           <button className="table-action-btn table-action-btn--view" title="View" onClick={() => { setEditRecord(row); setShowForm(true); }}>
             <FiEye size={15} />
           </button>
-          {canEdit && (
-            <>
-              <button className="table-action-btn table-action-btn--edit" title="Edit" onClick={() => { setEditRecord(row); setShowForm(true); }}>
+          <button className="table-action-btn table-action-btn--edit" title="Edit" onClick={() => { setEditRecord(row); setShowForm(true); }}>
                 <FiEdit2 size={15} />
               </button>
               <button className="table-action-btn table-action-btn--print" title="Print Certificate" onClick={() => handlePrint(row.id)}>
@@ -79,10 +73,7 @@ export default function Death() {
               </button>
               <button className="table-action-btn table-action-btn--delete" title="Delete" onClick={() => setDeleteId(row.id)}>
                 <FiTrash2 size={15} />
-              </button>
-            </>
-          )}
-        </div>
+              </button>        </div>
       ),
     },
   ];
@@ -94,11 +85,9 @@ export default function Death() {
           <h1 className="page__title">Death Records</h1>
           <p className="page__subtitle">Manage and view all death registrations</p>
         </div>
-        {canEdit && (
-          <Button icon={FiPlus} onClick={() => { setEditRecord(null); setShowForm(true); }}>
+        <Button icon={FiPlus} onClick={() => { setEditRecord(null); setShowForm(true); }}>
             Register Death
           </Button>
-        )}
       </div>
 
       <DataTable

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiSave } from 'react-icons/fi';
 import FormField from '../../components/Forms/FormField';
 import Button from '../../components/Forms/Button';
 import { marriageService } from '../../services/marriageService';
@@ -40,12 +40,12 @@ export default function MarriageForm({ record, onClose, onSuccess }) {
 
   const validate = () => {
     const errs = {};
-    if (!form.husband_name.trim()) errs.husband_name = "Husband's name is required.";
-    if (!form.wife_name.trim()) errs.wife_name = "Wife's name is required.";
-    if (!form.marriage_date) errs.marriage_date = 'Marriage date is required.';
-    if (!form.witness1_name.trim()) errs.witness1_name = 'At least 2 witnesses are required.';
-    if (!form.witness2_name.trim()) errs.witness2_name = 'At least 2 witnesses are required.';
-    if (!form.kebele.trim()) errs.kebele = 'Kebele is required.';
+    if (!form.husband_name.trim())  errs.husband_name  = "Husband's name is required.";
+    if (!form.wife_name.trim())     errs.wife_name     = "Wife's name is required.";
+    if (!form.marriage_date)        errs.marriage_date = 'Marriage date is required.';
+    if (!form.witness1_name.trim()) errs.witness1_name = 'Witness 1 is required.';
+    if (!form.witness2_name.trim()) errs.witness2_name = 'Witness 2 is required.';
+    if (!form.kebele.trim())        errs.kebele        = 'Kebele is required.';
     return errs;
   };
 
@@ -72,14 +72,16 @@ export default function MarriageForm({ record, onClose, onSuccess }) {
   return (
     <div className="modal-overlay">
       <div className="modal modal--lg">
+
         <div className="modal__header">
           <h3 className="modal__title">{isEdit ? 'Edit Marriage Record' : 'Register Marriage Event'}</h3>
           <button className="modal__close" onClick={onClose} aria-label="Close"><FiX size={20} /></button>
         </div>
 
-        {serverError && <div className="form-error-banner">{serverError}</div>}
+        <form onSubmit={handleSubmit} noValidate className="modal__form">
 
-        <form onSubmit={handleSubmit} noValidate>
+          {serverError && <div className="form-error-banner">{serverError}</div>}
+
           <div className="modal__body">
             <div className="form-section">
               <h4 className="form-section__title">Husband Information</h4>
@@ -109,12 +111,12 @@ export default function MarriageForm({ record, onClose, onSuccess }) {
             </div>
 
             <div className="form-section">
-              <h4 className="form-section__title">Witnesses (Minimum 4 required)</h4>
+              <h4 className="form-section__title">Witnesses (Minimum 2 required)</h4>
               <div className="form-grid">
-                <FormField label="Witness 1 (Husband's side)" name="witness1_name" value={form.witness1_name} onChange={handleChange} error={errors.witness1_name} required placeholder="Full name" />
-                <FormField label="Witness 2 (Husband's side)" name="witness2_name" value={form.witness2_name} onChange={handleChange} error={errors.witness2_name} required placeholder="Full name" />
-                <FormField label="Witness 3 (Wife's side)" name="witness3_name" value={form.witness3_name} onChange={handleChange} placeholder="Full name" />
-                <FormField label="Witness 4 (Wife's side)" name="witness4_name" value={form.witness4_name} onChange={handleChange} placeholder="Full name" />
+                <FormField label="Witness 1 — Husband's side" name="witness1_name" value={form.witness1_name} onChange={handleChange} error={errors.witness1_name} required placeholder="Full name" />
+                <FormField label="Witness 2 — Husband's side" name="witness2_name" value={form.witness2_name} onChange={handleChange} error={errors.witness2_name} required placeholder="Full name" />
+                <FormField label="Witness 3 — Wife's side" name="witness3_name" value={form.witness3_name} onChange={handleChange} placeholder="Full name" />
+                <FormField label="Witness 4 — Wife's side" name="witness4_name" value={form.witness4_name} onChange={handleChange} placeholder="Full name" />
               </div>
             </div>
 
@@ -132,8 +134,11 @@ export default function MarriageForm({ record, onClose, onSuccess }) {
 
           <div className="modal__footer">
             <Button variant="secondary" type="button" onClick={onClose}>Cancel</Button>
-            <Button type="submit" loading={loading}>{isEdit ? 'Update Record' : 'Register Marriage'}</Button>
+            <Button type="submit" icon={FiSave} loading={loading}>
+              {isEdit ? 'Save Changes' : 'Save & Register'}
+            </Button>
           </div>
+
         </form>
       </div>
     </div>

@@ -1,75 +1,91 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
 .form-field__label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--gray-700);
+  color: #3c4043;
 }
 
 .form-field__required {
-  color: var(--danger);
+  color: #ea4335;
   margin-left: 3px;
 }
 
 .form-field__input {
-  padding: 9px 12px;
-  border: 1px solid var(--gray-300);
-  border-radius: var(--border-radius);
+  padding: 10px 14px;
+  border: 1.5px solid #dadce0;
+  border-radius: 10px;
   font-size: 14px;
-  color: var(--gray-900);
-  background-color: var(--white);
-  transition: var(--transition);
+  color: #202124;
+  background-color: #ffffff;
+  transition: all 0.18s ease;
   outline: none;
   width: 100%;
+  font-family: inherit;
+}
+
+.form-field__input:hover {
+  border-color: #bdc1c6;
 }
 
 .form-field__input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+  background-color: #fafcff;
 }
 
 .form-field__input:disabled {
-  background-color: var(--gray-100);
-  color: var(--gray-500);
+  background-color: #f8f9fa;
+  color: #9aa0a6;
   cursor: not-allowed;
+  border-color: #e8eaed;
 }
 
 .form-field__input--error {
-  border-color: var(--danger);
+  border-color: #ea4335;
+  background-color: #fff8f7;
 }
 
 .form-field__input--error:focus {
-  box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.12);
+  border-color: #ea4335;
+  box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.15);
 }
 
 .form-field__select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235f6368' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235f6368' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 32px;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
 }
 
 .form-field__textarea {
   resize: vertical;
-  min-height: 96px;
+  min-height: 90px;
+  line-height: 1.6;
 }
 
 .form-field__hint {
   font-size: 12px;
-  color: var(--gray-500);
+  color: #9aa0a6;
+  line-height: 1.4;
 }
 
 .form-field__error {
   font-size: 12px;
-  color: var(--danger);
-  font-weight: 500;
+  color: #ea4335;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
+/* ── Grid layouts ── */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

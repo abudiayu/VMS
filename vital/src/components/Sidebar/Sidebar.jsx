@@ -12,6 +12,7 @@ import {
   FiScissors,
   FiMenu,
   FiX,
+  FiLogOut,
 } from 'react-icons/fi';
 import './Sidebar.css';
 
@@ -108,10 +109,21 @@ export default function Sidebar({ isOpen, onToggle }) {
 
         {isOpen && (
           <div className="sidebar__footer">
-            <p className="sidebar__footer-text">VEMS v1.0.0</p>
-            <p className="sidebar__footer-text">Wollo University</p>
+            <p className="sidebar__footer-text">VEMS v1.0.0 — Wollo University</p>
           </div>
         )}
+
+        <div className="sidebar__logout-wrap">
+          <button
+            className={`sidebar__logout-btn ${isOpen ? 'sidebar__logout-btn--open' : ''}`}
+            onClick={() => navigate('/login')}
+            title="Logout"
+          >
+            <FiLogOut size={19} />
+            {isOpen && <span>Logout</span>}
+          </button>
+        </div>
+
       </aside>
     </>
   );

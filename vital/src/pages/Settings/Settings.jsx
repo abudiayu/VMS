@@ -3,14 +3,14 @@ import { FiLock, FiUser, FiSave } from 'react-icons/fi';
 import FormField from '../../components/Forms/FormField';
 import Button from '../../components/Forms/Button';
 import { authService } from '../../services/authService';
-import { useAuth } from '../../context/AuthContext';
 import { usePageTitle } from '../../hooks/usePageTitle';
 import '../Birth/Birth.css';
 import './Settings.css';
 
 export default function Settings() {
   usePageTitle('Settings');
-  const { user } = useAuth();
+
+  const user = { username: 'admin', role: 'admin', email: 'admin@vems.gov.et', full_name: 'System Administrator' };
 
   const [passwordForm, setPasswordForm] = useState({
     current_password: '',

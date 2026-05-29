@@ -1,37 +1,27 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiBell, FiMenu, FiUser, FiLogOut, FiSettings, FiChevronDown } from 'react-icons/fi';
-import { useAuth } from '../../context/AuthContext';
+import { FiBell, FiMenu, FiSettings, FiChevronDown } from 'react-icons/fi';
 import './Navbar.css';
 
-export default function Navbar({ onToggleSidebar, sidebarOpen }) {
-  const { user } = useAuth();
+export default function Navbar({ onToggleSidebar }) {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const getRoleLabel = (role) => {
-    const labels = {
-      admin: 'System Administrator',
-      employee: 'Employee',
-      customer: 'Customer',
-    };
-    return labels[role] || role;
-  };
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="navbar">
       <div className="navbar__left">
-        <button
-          className="navbar__toggle"
-          onClick={onToggleSidebar}
-          aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-        >
+        <button className="navbar__toggle" onClick={onToggleSidebar} aria-label="Toggle sidebar">
           <FiMenu size={20} />
         </button>
         <div className="navbar__brand">
@@ -50,27 +40,25 @@ export default function Navbar({ onToggleSidebar, sidebarOpen }) {
           <button
             className="navbar__user-btn"
             onClick={() => setDropdownOpen((prev) => !prev)}
-            aria-expanded={dropdownOpen}
           >
-            <div className="navbar__avatar">
-              {user?.username?.charAt(0).toUpperCase() || 'U'}
-            </div>
+            <div className="navbar__avatar">A</div>
             <div className="navbar__user-info">
-              <span className="navbar__user-name">{user?.username || 'User'}</span>
-              <span className="navbar__user-role">{getRoleLabel(user?.role)}</span>
+              <span className="navbar__user-name">Admin</span>
+              <span className="navbar__user-role">System Administrator</span>
             </div>
-            <FiChevronDown size={16} className={`navbar__chevron ${dropdownOpen ? 'open' : ''}`} />
+            <FiChevronDown
+              size={15}
+              className={`navbar__chevron ${dropdownOpen ? 'open' : ''}`}
+            />
           </button>
 
           {dropdownOpen && (
             <div className="navbar__dropdown">
               <div className="navbar__dropdown-header">
-                <div className="navbar__avatar navbar__avatar--lg">
-                  {user?.username?.charAt(0).toUpperCase() || 'U'}
-                </div>
+                <div className="navbar__avatar navbar__avatar--lg">A</div>
                 <div>
-                  <p className="navbar__dropdown-name">{user?.username}</p>
-                  <p className="navbar__dropdown-role">{getRoleLabel(user?.role)}</p>
+                  <p className="navbar__dropdown-name">Admin</p>
+                  <p className="navbar__dropdown-role">System Administrator</p>
                 </div>
               </div>
               <div className="navbar__dropdown-divider" />
@@ -78,15 +66,8 @@ export default function Navbar({ onToggleSidebar, sidebarOpen }) {
                 className="navbar__dropdown-item"
                 onClick={() => { navigate('/settings'); setDropdownOpen(false); }}
               >
-                <FiSettings size={16} />
+                <FiSettings size={15} />
                 <span>Settings</span>
-              </button>
-              <button
-                className="navbar__dropdown-item navbar__dropdown-item--danger"
-                onClick={handleLogout}
-              >
-                <FiLogOut size={16} />
-                <span>Sign Out</span>
               </button>
             </div>
           )}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiSave } from 'react-icons/fi';
 import FormField from '../../components/Forms/FormField';
 import Button from '../../components/Forms/Button';
 import { divorceService } from '../../services/divorceService';
@@ -35,11 +35,11 @@ export default function DivorceForm({ record, onClose, onSuccess }) {
 
   const validate = () => {
     const errs = {};
-    if (!form.husband_name.trim()) errs.husband_name = "Husband's name is required.";
-    if (!form.wife_name.trim()) errs.wife_name = "Wife's name is required.";
-    if (!form.divorce_date) errs.divorce_date = 'Divorce date is required.';
+    if (!form.husband_name.trim())  errs.husband_name  = "Husband's name is required.";
+    if (!form.wife_name.trim())     errs.wife_name     = "Wife's name is required.";
+    if (!form.divorce_date)         errs.divorce_date  = 'Divorce date is required.';
     if (!form.court_order_no.trim()) errs.court_order_no = 'Court order number is required.';
-    if (!form.kebele.trim()) errs.kebele = 'Kebele is required.';
+    if (!form.kebele.trim())        errs.kebele        = 'Kebele is required.';
     return errs;
   };
 
@@ -66,14 +66,16 @@ export default function DivorceForm({ record, onClose, onSuccess }) {
   return (
     <div className="modal-overlay">
       <div className="modal modal--lg">
+
         <div className="modal__header">
           <h3 className="modal__title">{isEdit ? 'Edit Divorce Record' : 'Register Divorce Event'}</h3>
           <button className="modal__close" onClick={onClose} aria-label="Close"><FiX size={20} /></button>
         </div>
 
-        {serverError && <div className="form-error-banner">{serverError}</div>}
+        <form onSubmit={handleSubmit} noValidate className="modal__form">
 
-        <form onSubmit={handleSubmit} noValidate>
+          {serverError && <div className="form-error-banner">{serverError}</div>}
+
           <div className="modal__body">
             <div className="form-section">
               <h4 className="form-section__title">Parties Information</h4>
@@ -109,8 +111,11 @@ export default function DivorceForm({ record, onClose, onSuccess }) {
 
           <div className="modal__footer">
             <Button variant="secondary" type="button" onClick={onClose}>Cancel</Button>
-            <Button type="submit" loading={loading}>{isEdit ? 'Update Record' : 'Register Divorce'}</Button>
+            <Button type="submit" icon={FiSave} loading={loading}>
+              {isEdit ? 'Save Changes' : 'Save & Register'}
+            </Button>
           </div>
+
         </form>
       </div>
     </div>

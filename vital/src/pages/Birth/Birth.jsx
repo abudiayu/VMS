@@ -6,25 +6,16 @@ import BirthForm from './BirthForm';
 import { birthService } from '../../services/birthService';
 import { useFetch } from '../../hooks/useFetch';
 import { usePageTitle } from '../../hooks/usePageTitle';
-import { useAuth } from '../../context/AuthContext';
 import './Birth.css';
 
 export default function Birth() {
   usePageTitle('Birth Records');
-  const { user } = useAuth();
 
   const { data, loading, refetch } = useFetch(() => birthService.getAll());
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm]   = useState(false);
   const [editRecord, setEditRecord] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-
-  const canEdit = user?.role === 'admin' || user?.role === 'employee';
-
-  const handleEdit = (record) => {
-    setEditRecord(record);
-    setShowForm(true);
-  };
+  const [deleteId, setDeleteId]   = useState(null);
+  const [deleting, setDeleting]   = useState(false);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -42,19 +33,19 @@ export default function Birth() {
 
   const handlePrint = async (id) => {
     try {
-      const data = await birthService.generateCertificate(id);
-      window.open(data.certificate_url, '_blank');
+      const res = await birthService.generateCertificate(id);
+      window.open(res.certificate_url, '_blank');
     } catch {
       alert('Failed to generate certificate.');
     }
   };
 
   const columns = [
-    { header: 'Reg. No.', accessor: 'registration_no' },
-    { header: "Child's Name", accessor: 'child_name' },
-    { header: 'Date of Birth', accessor: 'date_of_birth' },
-    { header: "Father's Name", accessor: 'father_name' },
-    { header: "Mother's Name", accessor: 'mother_name' },
+    { header: 'Reg. No.',       accessor: 'registration_no' },
+    { header: "Child's Name",   accessor: 'child_name' },
+    { header: 'Date of Birth',  accessor: 'date_of_birth' },
+    { header: "Father's Name",  accessor: 'father_name' },
+    { header: "Mother's Name",  accessor: 'mother_name' },
     { header: 'Place of Birth', accessor: 'place_of_birth' },
     {
       header: 'Status',
@@ -70,22 +61,22 @@ export default function Birth() {
       key: 'actions',
       render: (row) => (
         <div className="table-actions">
-          <button className="table-action-btn table-action-btn--view" title="View" onClick={() => handleEdit(row)}>
+          <button className="table-action-btn table-action-btn--view" title="View"
+            onClick={() => { setEditRecord(row); setShowForm(true); }}>
             <FiEye size={15} />
           </button>
-          {canEdit && (
-            <>
-              <button className="table-action-btn table-action-btn--edit" title="Edit" onClick={() => handleEdit(row)}>
-                <FiEdit2 size={15} />
-              </button>
-              <button className="table-action-btn table-action-btn--print" title="Print Certificate" onClick={() => handlePrint(row.id)}>
-                <FiPrinter size={15} />
-              </button>
-              <button className="table-action-btn table-action-btn--delete" title="Delete" onClick={() => setDeleteId(row.id)}>
-                <FiTrash2 size={15} />
-              </button>
-            </>
-          )}
+          <button className="table-action-btn table-action-btn--edit" title="Edit"
+            onClick={() => { setEditRecord(row); setShowForm(true); }}>
+            <FiEdit2 size={15} />
+          </button>
+          <button className="table-action-btn table-action-btn--print" title="Print Certificate"
+            onClick={() => handlePrint(row.id)}>
+            <FiPrinter size={15} />
+          </button>
+          <button className="table-action-btn table-action-btn--delete" title="Delete"
+            onClick={() => setDeleteId(row.id)}>
+            <FiTrash2 size={15} />
+          </button>
         </div>
       ),
     },
@@ -98,14 +89,9 @@ export default function Birth() {
           <h1 className="page__title">Birth Records</h1>
           <p className="page__subtitle">Manage and view all birth registrations</p>
         </div>
-        {canEdit && (
-          <Button
-            icon={FiPlus}
-            onClick={() => { setEditRecord(null); setShowForm(true); }}
-          >
-            Register Birth
-          </Button>
-        )}
+        <Button icon={FiPlus} onClick={() => { setEditRecord(null); setShowForm(true); }}>
+          Register Birth
+        </Button>
       </div>
 
       <DataTable
@@ -128,10 +114,8 @@ export default function Birth() {
       {deleteId && (
         <div className="modal-overlay">
           <div className="modal modal--sm">
-            <h3 className="modal__title">Confirm Delete</h3>
-            <p className="modal__text">
-              Are you sure you want to delete this birth record? This action cannot be undone.
-            </p>
+            <h3 className="modal__title" style={{ padding: '20px 24px 0' }}>Confirm Delete</h3>
+            <p className="modal__text">Are you sure you want to delete this birth record?</p>
             <div className="modal__actions">
               <Button variant="secondary" onClick={() => setDeleteId(null)}>Cancel</Button>
               <Button variant="danger" loading={deleting} onClick={handleDelete}>Delete</Button>

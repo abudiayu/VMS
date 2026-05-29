@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiSave } from 'react-icons/fi';
 import FormField from '../../components/Forms/FormField';
 import Button from '../../components/Forms/Button';
 import { deathService } from '../../services/deathService';
@@ -35,11 +35,11 @@ export default function DeathForm({ record, onClose, onSuccess }) {
 
   const validate = () => {
     const errs = {};
-    if (!form.deceased_name.trim()) errs.deceased_name = 'Deceased name is required.';
-    if (!form.date_of_death) errs.date_of_death = 'Date of death is required.';
+    if (!form.deceased_name.trim())  errs.deceased_name  = 'Deceased name is required.';
+    if (!form.date_of_death)         errs.date_of_death  = 'Date of death is required.';
     if (!form.cause_of_death.trim()) errs.cause_of_death = 'Cause of death is required.';
-    if (!form.reported_by.trim()) errs.reported_by = 'Reporter name is required.';
-    if (!form.kebele.trim()) errs.kebele = 'Kebele is required.';
+    if (!form.reported_by.trim())    errs.reported_by    = 'Reporter name is required.';
+    if (!form.kebele.trim())         errs.kebele         = 'Kebele is required.';
     return errs;
   };
 
@@ -66,14 +66,16 @@ export default function DeathForm({ record, onClose, onSuccess }) {
   return (
     <div className="modal-overlay">
       <div className="modal modal--lg">
+
         <div className="modal__header">
           <h3 className="modal__title">{isEdit ? 'Edit Death Record' : 'Register Death Event'}</h3>
           <button className="modal__close" onClick={onClose} aria-label="Close"><FiX size={20} /></button>
         </div>
 
-        {serverError && <div className="form-error-banner">{serverError}</div>}
+        <form onSubmit={handleSubmit} noValidate className="modal__form">
 
-        <form onSubmit={handleSubmit} noValidate>
+          {serverError && <div className="form-error-banner">{serverError}</div>}
+
           <div className="modal__body">
             <div className="form-section">
               <h4 className="form-section__title">Deceased Information</h4>
@@ -105,8 +107,11 @@ export default function DeathForm({ record, onClose, onSuccess }) {
 
           <div className="modal__footer">
             <Button variant="secondary" type="button" onClick={onClose}>Cancel</Button>
-            <Button type="submit" loading={loading}>{isEdit ? 'Update Record' : 'Register Death'}</Button>
+            <Button type="submit" icon={FiSave} loading={loading}>
+              {isEdit ? 'Save Changes' : 'Save & Register'}
+            </Button>
           </div>
+
         </form>
       </div>
     </div>
